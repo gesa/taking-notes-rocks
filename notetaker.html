@@ -26,7 +26,7 @@
     <button onclick="countdown()">Let's find out</button>
 
     <script type="text/javascript">
-      var people, rand, timer_count;
+      var people, rand, timer_count, countdown, reload;
 
       people = ["clint", "ashley", "ivan", "gauri", "josh", "crespo",
                 "dylan", "kunal", "abbie", "emily", "victoria",
@@ -46,8 +46,12 @@
           timer_count--;
           setTimeout(function() { countdown(); }, 1000);
         } else {
-          document.body.innerHTML = "<h3>Grab a pen,</h3><h1>" + rand + "</h1><h3>you're taking notes!</h3>";
+          document.body.innerHTML = "<h4>Grab a pen,</h3><h1>" + rand + "</h1><h3>you're taking notes!</h3><p><button onclick='reload()'>Reset</button></p>";
         }
+      }
+
+      reload = function() {
+        location.reload();
       }
     </script>
   </body>
