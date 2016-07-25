@@ -23,14 +23,14 @@
   </head>
   <body id="timer">
     <h2>Who's taking notes?</h2>
-    <button onclick="countdown()">Let's find out</button>
+    <button onclick="countdown()">Let's find out</button><br>
 
     <script type="text/javascript">
       var people, rand, timer_count, countdown, reload;
 
       people = ["adam", "ashley", "azita", "bret", "broox", "chris", "clint", "crespo", "emily", "holcomb", "ian", "ivan", "josh", "kunal", "marina", "mashton", "micah", "nina", "rohit", "tolar", "udit", "victoria"];
 
-      rand = people[Math.floor(Math.random() * people.length)];
+      person = people[Math.floor(Math.random() * people.length)];
       timer_count = 3;
 
       countdown = function() {
@@ -39,7 +39,7 @@
           timer_count--;
           setTimeout(function() { countdown(); }, 1000);
         } else {
-          document.body.innerHTML = "<h4>Grab a pen,</h4><h1>" + rand + "</h1><h3>you're taking notes!</h3><p><button onclick='reload()'>Reset</button></p>";
+          document.body.innerHTML = "<h3>Grab a pen</h3><h1>" + person + "</h1><h3>you're taking notes!</h3><p><button onclick='reload()'>Reset</button></p>";
         }
       }
 
