@@ -12,3 +12,4 @@ Here are a list of possible features that could make this better:
 
 - Grab a list of names from an external file
 - Tie into Google Calendar to create a list of names of meeting attendees
+
