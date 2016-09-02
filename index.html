@@ -157,6 +157,7 @@
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
+        font-size: 11px;
         list-style-type: none;
         padding-left: 10px;
         text-align: left;
@@ -171,6 +172,10 @@
         align-items: center;
       }
 
+      .people-selector-list-item:hover {
+        background-color: #f9f9f9;
+      }
+
       .people-selector-list .people-selector-list-item:last-child {
         border-bottom: 0;
       }
@@ -181,9 +186,9 @@
         border-radius: 50%;
         content: "";
         display: block;
-        height: 16px;
-        margin-right: 10px;
-        width: 16px;
+        height: 8px;
+        margin-right: 5px;
+        width: 8px;
       }
 
       .people-selector-list-item span {
@@ -203,13 +208,25 @@
         border-color: #21cf92;
       }
 
+      .add-person-form {
+        margin-bottom: 0;
+      }
+
+      .add-person-input {
+        background: #fafafa;
+        border: none;
+        border-bottom: 1px solid #dfdfdf;
+        outline: none;
+        padding: 10px;
+        width: 100%;
+      }
+
       .settings-drawer {
         background-color: #fff;
         bottom: 0;
         display: block;
         height: 100%;
         overflow-y: scroll;
-        min-width: 180px;
         position: fixed;
         right: -20%;
         top: 0;
@@ -221,9 +238,7 @@
                 transition: right 0.1s linear;
       }
 
-      .settings-drawer.expanded {
-        right: 0;
-      }
+      .settings-drawer.expanded { right: 0; }
 
       .reset-button {
         background-color: #fff;
@@ -247,15 +262,13 @@
         cursor: pointer;
       }
 
-      .no-good-gesture-emoji {
-        font-size: 2.5rem;
-      }
+      .no-good-gesture-emoji { font-size: 2.5rem; }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   </head>
   <body id="timer">
     <a href="#" class="menu-button js-show-people-selector">
-      <span class="no-good-gesture-emoji">&#128581;</span>
+      <span class="no-good-gesture-emoji">&#128587;</span>
     </a>
     <section class="main-container flex-center">
       <div class="content">
@@ -304,35 +317,48 @@
         }, timer_count);
       }
 
-      // Edit people
+      // Add person
+      $(document).submit("#add-person-form", function(e) {
+        e.preventDefault();
+        person = $(this).find("input").val();
+        people.push(person.toLowerCase());
+        loadPeople();
+      });
+
+      // Load people into list
       loadPeople = function() {
         $list = $("#people_selector_list");
         $list.html("");
 
+        people.sort();
+
+        // Load the 'add person' input
+        $list.append("<li class='people-selector-input'><form id='add-person-form' class='add-person-form'><input type='text' class='add-person-input' placeholder='Add a person'></input></li>");
+
         for (var i=0, length = people.length; i < length; i++) {
           person = people[i];
 
+          // Populate the list UI
           $list.append("<li class='people-selector-list-item selected' data-index='" + i + "' data-person='" + person + "'><span>" + person + "</span></li>");
         }
       }
-
-      // Checkbox UI
-      $(document).on("click", ".people-selector-list-item", function() {
-        $(this).toggleClass("selected");
-      });
 
       // Start the countdown
       $countdownButton.on("click", function() {
         $(".people-selector-list-item.selected").each(function() {
           person = $(this).data("person");
           peopleTemp.push(person);
-          peopleTemp.sort();
         });
 
         $(".js-show-people-selector").hide();
         $(this).addClass("animate");
 
         countdown();
+      });
+
+      // Checkbox UI
+      $(document).on("click", ".people-selector-list-item", function() {
+        $(this).toggleClass("selected");
       });
 
       // Reveal settings drawer
