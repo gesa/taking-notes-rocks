@@ -227,9 +227,8 @@
         display: block;
         height: 100%;
         overflow-y: scroll;
-        min-width: 180px;
         position: fixed;
-        right: 0;
+        right: -20%;
         top: 0;
         width: 20%;
 
@@ -239,9 +238,7 @@
                 transition: right 0.1s linear;
       }
 
-      .settings-drawer.expanded {
-        right: 0;
-      }
+      .settings-drawer.expanded { right: 0; }
 
       .reset-button {
         background-color: #fff;
@@ -265,15 +262,13 @@
         cursor: pointer;
       }
 
-      .no-good-gesture-emoji {
-        font-size: 2.5rem;
-      }
+      .no-good-gesture-emoji { font-size: 2.5rem; }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   </head>
   <body id="timer">
     <a href="#" class="menu-button js-show-people-selector">
-      <span class="no-good-gesture-emoji">&#128581;</span>
+      <span class="no-good-gesture-emoji">&#128587;</span>
     </a>
     <section class="main-container flex-center">
       <div class="content">
