@@ -362,10 +362,14 @@
           peopleTemp.push(person);
         });
 
-        $(".js-show-people-selector").hide();
-        $(this).addClass("animate");
-
-        countdown();
+        // Only countdown if the list isn't empty
+        if (peopleTemp.length !== 0) {
+          $(".js-show-people-selector").hide();
+          $(this).addClass("animate");
+          countdown();
+        } else {
+          alert("Add some people!");
+        }
       });
 
       // Checkbox UI
