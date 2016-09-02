@@ -128,84 +128,89 @@
         width: 100%;
       }
 
-      .main-container > .content {
-      }
-
       .settings-drawer {
         border-left: 1px solid #dfdfdf;
       }
 
       .people-selector-list {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
         height: 100%;
         margin: 0;
         overflow-y: scroll;
         padding: 0;
+        text-align: left;
         width: 100%;
-
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-        flex-direction: column;
       }
 
       .people-selector-list-item {
         border-bottom: 1px solid #dfdfdf;
+        color: #ccc;
         cursor: pointer;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
+        display: inline-block;
         font-size: 11px;
         list-style-type: none;
+        padding-bottom: 8px;
+        padding-top: 8px;
         padding-left: 10px;
-        text-align: left;
+        width: 50%;
 
-        -webkit-box-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
+        -webkit-touch-callout: none;
+          -webkit-user-select: none;
+           -khtml-user-select: none;
+             -moz-user-select: none;
+              -ms-user-select: none;
+                  user-select: none;
+      }
 
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -ms-grid-row-align: center;
-        align-items: center;
+      .people-selector-list-item:nth-child(even) {
+        border-right: 1px solid #dfdfdf;
       }
 
       .people-selector-list-item:hover {
         background-color: #f9f9f9;
       }
 
-      .people-selector-list .people-selector-list-item:last-child {
-        border-bottom: 0;
-      }
-
-      .people-selector-list-item:before {
-        background-color: #fff;
-        border: 2px solid #dfdfdf;
-        border-radius: 50%;
-        content: "";
-        display: block;
-        height: 8px;
-        margin-right: 5px;
-        width: 8px;
-      }
-
       .people-selector-list-item span {
         text-transform: capitalize;
+      }
 
-        -webkit-box-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
+      .people-selector-list-item span:before {
+        background-color: #ccc;
+        border-radius: 50%;
+        content: "";
+        display: inline-block;
+        height: 9px;
+        margin-right: 5px;
+        position: relative;
+        top: 1px;
+        width: 9px;
+      }
+
+      .people-selector-list-item.selected {
+        color: #222;
       }
 
       .people-selector-list-item.selected span {
         font-weight: 700;
       }
 
-      .people-selector-list-item.selected:before {
+      .people-selector-list-item.selected span:before {
         background-color: #21cf92;
-        border-color: #21cf92;
+      }
+
+      .clear-people-list {
+        background: white;
+        bottom: 0;
+        color: #777;
+        cursor: pointer;
+        font-size: 12px;
+        padding: 8px 10px;
+        position: absolute;
+        left: 0;
+        width: 100%;
+      }
+
+      .clear-people-list:hover {
+        color: #222;
       }
 
       .add-person-form {
@@ -280,10 +285,11 @@
     </section>
     <section class="settings-drawer" id="people_selector">
       <ul class="people-selector-list" id="people_selector_list"></ul>
+      <span class="clear-people-list js-clear-people-list">Clear list</span>
     </section>
 
     <script type="text/javascript">
-      var people, peopleTemp, timer_count, countdown, reload, loadPeople, seconds, timer_count, selectPerson;
+      var people, peopleTemp, timer_count, seconds, timer_count, selectPerson, countdown, clearList, loadPeople, reload;
 
       $countdownButton = $(".js-start-countdown");
       $settingsDrawer  = $(".settings-drawer");
@@ -325,6 +331,12 @@
         loadPeople();
       });
 
+      // Empty the people list
+      clearList = function() {
+        people = [];
+        loadPeople();
+      }
+
       // Load people into list
       loadPeople = function() {
         $list = $("#people_selector_list");
@@ -335,7 +347,7 @@
         // Load the 'add person' input
         $list.append("<li class='people-selector-input'><form id='add-person-form' class='add-person-form'><input type='text' class='add-person-input' placeholder='Add a person'></input></li>");
 
-        for (var i=0, length = people.length; i < length; i++) {
+        for (i=0, length=people.length; i < length; i++) {
           person = people[i];
 
           // Populate the list UI
@@ -350,10 +362,14 @@
           peopleTemp.push(person);
         });
 
-        $(".js-show-people-selector").hide();
-        $(this).addClass("animate");
-
-        countdown();
+        // Only countdown if the list isn't empty
+        if (peopleTemp.length !== 0) {
+          $(".js-show-people-selector").hide();
+          $(this).addClass("animate");
+          countdown();
+        } else {
+          alert("Add some people!");
+        }
       });
 
       // Checkbox UI
@@ -377,6 +393,11 @@
 
       // Load the UI for selecting/deselecting people
       loadPeople();
+
+      // Clear list
+      $(".js-clear-people-list").on("click", function(e) {
+        clearList();
+      });
 
       // Reload page
       reload = function() {
