@@ -186,9 +186,9 @@
         border-radius: 50%;
         content: "";
         display: block;
-        height: 12px;
-        margin-right: 10px;
-        width: 12px;
+        height: 8px;
+        margin-right: 5px;
+        width: 8px;
       }
 
       .people-selector-list-item span {
@@ -208,6 +208,19 @@
         border-color: #21cf92;
       }
 
+      .add-person-form {
+        margin-bottom: 0;
+      }
+
+      .add-person-input {
+        background: #fafafa;
+        border: none;
+        border-bottom: 1px solid #dfdfdf;
+        outline: none;
+        padding: 10px;
+        width: 100%;
+      }
+
       .settings-drawer {
         background-color: #fff;
         bottom: 0;
@@ -216,7 +229,7 @@
         overflow-y: scroll;
         min-width: 180px;
         position: fixed;
-        right: -20%;
+        right: 0;
         top: 0;
         width: 20%;
 
@@ -309,14 +322,28 @@
         }, timer_count);
       }
 
+      // Add person
+      $(document).submit("#add-person-form", function(e) {
+        e.preventDefault();
+        person = $(this).find("input").val();
+
+        people.push(person);
+        people.sort();
+
+        loadPeople();
+      });
+
       // Edit people
       loadPeople = function() {
         $list = $("#people_selector_list");
         $list.html("");
 
+        $list.append("<li class='people-selector-input'><form id='add-person-form' class='add-person-form'><input type='text' class='add-person-input' placeholder='Add a person'></input></li>");
+
         for (var i=0, length = people.length; i < length; i++) {
           person = people[i];
 
+          // Populate the list UI
           $list.append("<li class='people-selector-list-item selected' data-index='" + i + "' data-person='" + person + "'><span>" + person + "</span></li>");
         }
       }
