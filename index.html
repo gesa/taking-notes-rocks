@@ -326,18 +326,18 @@
       $(document).submit("#add-person-form", function(e) {
         e.preventDefault();
         person = $(this).find("input").val();
-
-        people.push(person);
-        people.sort();
-
+        people.push(person.toLowerCase());
         loadPeople();
       });
 
-      // Edit people
+      // Load people into list
       loadPeople = function() {
         $list = $("#people_selector_list");
         $list.html("");
 
+        people.sort();
+
+        // Load the 'add person' input
         $list.append("<li class='people-selector-input'><form id='add-person-form' class='add-person-form'><input type='text' class='add-person-input' placeholder='Add a person'></input></li>");
 
         for (var i=0, length = people.length; i < length; i++) {
@@ -348,23 +348,22 @@
         }
       }
 
-      // Checkbox UI
-      $(document).on("click", ".people-selector-list-item", function() {
-        $(this).toggleClass("selected");
-      });
-
       // Start the countdown
       $countdownButton.on("click", function() {
         $(".people-selector-list-item.selected").each(function() {
           person = $(this).data("person");
           peopleTemp.push(person);
-          peopleTemp.sort();
         });
 
         $(".js-show-people-selector").hide();
         $(this).addClass("animate");
 
         countdown();
+      });
+
+      // Checkbox UI
+      $(document).on("click", ".people-selector-list-item", function() {
+        $(this).toggleClass("selected");
       });
 
       // Reveal settings drawer
