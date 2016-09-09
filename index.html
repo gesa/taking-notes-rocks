@@ -329,6 +329,7 @@
         person = $(this).find("input").val();
         people.push(person.toLowerCase());
         loadPeople();
+        $(this).find("input").focus();
       });
 
       // Empty the people list
