@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PeopleList matches snapshot 1`] = `
+<div>
+  <nav
+    class="settings-drawer "
+  >
+    <ul
+      class="people-selector-list"
+    >
+      <li
+        class="people-selector-input"
+      >
+        <form
+          class="add-person-form"
+        >
+          <label
+            class="visually-hidden"
+            for="add-person-input"
+          >
+            Add a person
+          </label>
+          <input
+            autocomplete="name"
+            class="add-person-input"
+            id="add-person-input"
+            placeholder="e.g. John Appleseed"
+            value="Jane Doe"
+          />
+        </form>
+      </li>
+      <li
+        class="people-selector-list-item"
+      >
+        <span
+          class="person-name selected"
+          data-index="0"
+        >
+          John Appleseed
+        </span>
+        <span
+          aria-label="Remove person"
+          class="remove-person"
+          data-index="0"
+        >
+          ×
+        </span>
+      </li>
+    </ul>
+    <button
+      class="clear-people-list"
+    >
+      Clear list
+    </button>
+  </nav>
+</div>
+`;

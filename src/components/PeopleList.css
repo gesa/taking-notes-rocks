@@ -1,0 +1,125 @@
+.people-selector-list {
+  height: 100%;
+  margin: 0;
+  overflow-y: scroll;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.people-selector-list-item {
+  border-bottom: 1px solid #dfdfdf;
+  color: #999;
+  cursor: pointer;
+  display: flex;
+  list-style-type: none;
+  width: 100%;
+
+  user-select: none;
+}
+
+.people-selector-list-item:hover {
+  background-color: #f9f9f9;
+}
+
+.person-name, .remove-person {
+  display: block;
+}
+.person-name {
+  flex-grow: 2;
+  padding: 0.9rem 0 0.9rem 1.2rem;
+  text-transform: capitalize;
+}
+
+.person-name:before {
+  background-color: #ccc;
+  border-radius: 50%;
+  content: "";
+  display: inline-block;
+  height: 9px;
+  margin-right: 5px;
+  position: relative;
+  top: 1px;
+  width: 9px;
+}
+
+.person-name.selected {
+  color: #222;
+  font-weight: 700;
+}
+
+.person-name.selected:before {
+  background-color: #21cf92;
+}
+
+.remove-person {
+  padding: 0.9rem 1.6rem;
+}
+
+.clear-people-list {
+  background: white;
+  border: none;
+  bottom: 0;
+  color: #777;
+  cursor: pointer;
+  padding: 8px 10px;
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+.clear-people-list:hover {
+  color: #222;
+}
+
+.add-person-form {
+  margin-bottom: 0;
+}
+
+.add-person-input {
+  background: #fafafa;
+  border: none;
+  border-bottom: 1px solid #dfdfdf;
+  font-size: 1.6rem;
+  outline: none;
+  padding: 1rem 1rem 1rem 1.6rem;
+  width: 100%;
+}
+
+.settings-drawer {
+  background-color: #fff;
+  border-left: 1px solid #dfdfdf;
+  bottom: 0;
+  display: block;
+  height: 100%;
+  overflow-y: scroll;
+  position: fixed;
+  right: -20%;
+  top: 0;
+  width: 20%;
+  transition: right 0.1s linear;
+}
+
+.settings-drawer.expanded {
+  right: 0;
+}
+
+.reset-button {
+  background-color: #fff;
+  border: 2px solid #333;
+  border-radius: 5px;
+  box-shadow: 0 0 3px #aaa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  padding: 8px 12px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  transition: box-shadow 0.2s linear;
+}
+
+.reset-button:hover {
+  box-shadow: 0 0 5px #999;
+  cursor: pointer;
+}
+

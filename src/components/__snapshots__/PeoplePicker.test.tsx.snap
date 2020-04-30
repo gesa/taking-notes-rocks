@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PeoplePicker matches snapshot 1`] = `
+<div>
+  <main
+    class="flex-center"
+  >
+    <div
+      class="countdown-label hidden"
+    >
+      <h2>
+        Grab a pencil
+      </h2>
+      <h1 />
+      <h2>
+        you're taking notes!
+      </h2>
+      <button
+        class="reset-button"
+      >
+        Reset
+      </button>
+    </div>
+    <img
+      alt="An illustration of a pencil"
+      class="countdown-button "
+      src="/pencil.png"
+    />
+  </main>
+</div>
+`;
+
+exports[`PeoplePicker matches snapshot 2`] = `
+<div>
+  <main
+    class="flex-center"
+  >
+    <div
+      class="countdown-label "
+    >
+      <h2>
+        Grab a pencil
+      </h2>
+      <h1>
+        John Appleseed
+      </h1>
+      <h2>
+        you're taking notes!
+      </h2>
+      <button
+        class="reset-button"
+      >
+        Reset
+      </button>
+    </div>
+    <img
+      alt="An illustration of a pencil"
+      class="countdown-button fade"
+      src="/pencil.png"
+    />
+  </main>
+</div>
+`;

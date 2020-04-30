@@ -1,0 +1,28 @@
+{
+  "short_name": "Note-Taker",
+  "name": "Taking Notes Rocks!",
+  "description": "A teeny tiny app to help pick who will take notes for a tactical style meeting.",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "favicon.icns",
+      "sizes": "512x512 256x256 128x128 32x32 16x16",
+      "type": "image/icns"
+    },
+    {
+      "src": "icon_512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "background_color": "#ecf0f1",
+  "display": "standalone",
+  "lang": "eng",
+  "orientation": "landscape",
+  "start_url": ".",
+  "theme_color": "#000000"
+}
