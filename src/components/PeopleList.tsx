@@ -20,27 +20,35 @@ function PeopleList({
   }, [pendingPerson]);
 
   function renderPerson([person, eligible]: [string, boolean], index: number) {
+    const fieldID = person.toLowerCase().replace(/[^A-Za-z]/, "-");
+
     return (
       <li className="people-selector-list-item" key={index}>
-        <span
+        <label
           className={`person-name ${eligible ? "eligible" : ""}`}
-          onClick={(event) => {
-            event.preventDefault();
-
-            dispatch({ action: eligible ? "disable" : "enable", person });
-          }}
+          htmlFor={`check-${fieldID}-${index}`}
         >
+          <input
+            checked={eligible}
+            className="visually-hidden"
+            id={`check-${fieldID}-${index}`}
+            name={person}
+            onChange={() => {
+              dispatch({ action: eligible ? "disable" : "enable", person });
+            }}
+            type="checkbox"
+          />
           {person}
-        </span>
-        <span
+        </label>
+        <button
+          aria-label={`Remove ${person}`}
           onClick={() => {
             dispatch({ action: "remove", person });
           }}
-          aria-label="Remove person"
           className="remove-person"
         >
           &times;
-        </span>
+        </button>
       </li>
     );
   }
@@ -50,13 +58,17 @@ function PeopleList({
       <ul className="people-selector-list">
         <li className="people-selector-input">
           <form
+            className="add-person-form"
             onSubmit={(event) => {
               event.preventDefault();
+
+              if (!pendingPerson || pendingPerson === "") {
+                return false;
+              }
 
               dispatch({ action: "enable", person: pendingPerson });
               setPendingPerson("");
             }}
-            className="add-person-form"
           >
             <label htmlFor="add-person-input" className="visually-hidden">
               Add a person

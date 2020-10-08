@@ -53,6 +53,10 @@
 }
 
 .remove-person {
+  background-color: #fafafa;
+  border: none;
+  cursor: pointer;
+  font-size: 2rem;
   padding: 0.9rem 1.6rem;
 }
 

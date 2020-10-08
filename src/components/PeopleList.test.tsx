@@ -1,130 +1,114 @@
 import React from "react";
-import { render, fireEvent, act } from "@testing-library/react";
+import {
+  render,
+  fireEvent,
+  RenderResult,
+} from "@testing-library/react";
 import PeopleList from "./PeopleList";
 
-function noop() {
-  // noop
-}
-
 describe("PeopleList", () => {
-  const testPeople = [{ name: "John Appleseed", eligible: true }];
-  const testPerson = { name: "Jane Doe", eligible: true };
-  let mutatorAction = "";
+  const testPerson = "John Appleseed";
+  const testDisabledPerson = "John Q. Public";
+  const testPeople = new Map([
+    [testPerson, true],
+    [testDisabledPerson, false],
+  ]);
+  const dispatch = jest.fn();
 
-  function mockMutator(action: string): () => void {
-    return function () {
-      mutatorAction = action;
-    };
-  }
+  const t = {} as Record<string, RenderResult>;
 
   beforeEach(() => {
-    mutatorAction = "";
+    t.renderedPeopleList = render(
+      <PeopleList
+        dispatch={dispatch}
+        pickerVisible={true}
+        people={testPeople}
+      />
+    );
   });
 
   it("matches snapshot", () => {
-    const { container } = render(
-      <PeopleList
-        className=""
-        inputChange={noop}
-        people={testPeople}
-        person={testPerson}
-        mutatePerson={() => noop}
-      />
-    );
+    const { container } = t.renderedPeopleList;
 
     expect(container).toMatchSnapshot();
   });
 
-  it("updates text field value to be passed in person prop", () => {
-    const { getByPlaceholderText } = render(
+  it("doesn't apply expanded class if visible is false", () => {
+    const { container } = render(
       <PeopleList
-        className=""
-        inputChange={noop}
+        dispatch={dispatch}
+        pickerVisible={false}
         people={testPeople}
-        person={testPerson}
-        mutatePerson={() => noop}
       />
     );
 
-    expect(getByPlaceholderText("e.g. John Appleseed")).toHaveValue("Jane Doe");
+    expect(
+      container.getElementsByTagName("nav")[0].classList.contains("expanded")
+    ).toBeFalsy();
   });
 
-  it("fires the change handler when the input field changes", () => {
-    let changeFired = false;
-    const { getByPlaceholderText } = render(
-      <PeopleList
-        className=""
-        inputChange={() => {
-          changeFired = true;
-        }}
-        people={testPeople}
-        person={testPerson}
-        mutatePerson={() => noop}
-      />
+  it("calls the reducer to add a new person on form submit", () => {
+    const { baseElement, getByLabelText } = t.renderedPeopleList;
+    const newPerson = "Jane Doe";
+
+    fireEvent.change(getByLabelText("Add a person"), {
+      target: { value: newPerson },
+    });
+    fireEvent.submit(baseElement.getElementsByTagName("form")[0]);
+
+    expect(dispatch).toBeCalledWith(
+      expect.objectContaining({ action: "enable", person: newPerson })
     );
+  });
 
-    expect(changeFired).toBe(false);
+  it("does nothing on empty form submit", () => {
+    const { baseElement } = t.renderedPeopleList;
 
-    act(() => {
-      fireEvent.change(getByPlaceholderText("e.g. John Appleseed"), {
-        target: { value: "Foo" },
-      });
+    fireEvent.submit(baseElement.getElementsByTagName("form")[0]);
 
-      expect(changeFired).toBe(true);
+    expect(dispatch).not.toBeCalled();
+  });
+
+  it("calls the reducer to disable an enabled person when their name is clicked", () => {
+    const { getByLabelText } = t.renderedPeopleList;
+
+    fireEvent.click(getByLabelText(testPerson));
+
+    expect(dispatch).toBeCalledWith({
+      action: "disable",
+      person: testPerson,
     });
   });
 
-  it("fires the `add` mutator on form submit", () => {
-    const { baseElement } = render(
-      <PeopleList
-        className=""
-        inputChange={noop}
-        people={testPeople}
-        person={testPerson}
-        mutatePerson={mockMutator}
-      />
-    );
+  it("calls the reducer to enable a disabled person when their name is clicked", () => {
+    const { getByLabelText } = t.renderedPeopleList;
 
-    act(() => {
-      fireEvent.submit(baseElement.getElementsByTagName("form")[0]);
+    fireEvent.click(getByLabelText(testDisabledPerson));
+
+    expect(dispatch).toBeCalledWith({
+      action: "enable",
+      person: testDisabledPerson,
     });
-
-    expect(mutatorAction).toBe("add");
   });
 
-  it("fires the `remove` mutator when `&times; is clicked`", () => {
-    const { getAllByLabelText } = render(
-      <PeopleList
-        className=""
-        inputChange={noop}
-        people={testPeople}
-        person={testPerson}
-        mutatePerson={mockMutator}
-      />
-    );
+  it("calls the reducer to remove a person when their `&times; is clicked`", () => {
+    const { getByLabelText } = t.renderedPeopleList;
 
-    act(() => {
-      fireEvent.click(getAllByLabelText("Remove person")[0]);
+    fireEvent.click(getByLabelText(`Remove ${testPerson}`));
+
+    expect(dispatch).toBeCalledWith({
+      action: "remove",
+      person: testPerson,
     });
-
-    expect(mutatorAction).toBe("remove");
   });
 
-  it('fires the `clear` mutator when "clear list" is clicked', () => {
-    const { getByText } = render(
-      <PeopleList
-        className=""
-        inputChange={noop}
-        people={testPeople}
-        person={testPerson}
-        mutatePerson={mockMutator}
-      />
-    );
+  it('calls the reducer to clear the list when "clear list" is clicked', () => {
+    const { getByText } = t.renderedPeopleList;
 
-    act(() => {
-      fireEvent.click(getByText("Clear list"));
+    fireEvent.click(getByText("Clear list"));
+
+    expect(dispatch).toBeCalledWith({
+      action: "clear",
     });
-
-    expect(mutatorAction).toBe("clear");
   });
 });

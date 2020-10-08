@@ -3,7 +3,7 @@
 exports[`PeopleList matches snapshot 1`] = `
 <div>
   <nav
-    class="settings-drawer "
+    class="settings-drawer expanded"
   >
     <ul
       class="people-selector-list"
@@ -25,33 +25,70 @@ exports[`PeopleList matches snapshot 1`] = `
             class="add-person-input"
             id="add-person-input"
             placeholder="e.g. John Appleseed"
-            value="Jane Doe"
+            value=""
           />
         </form>
       </li>
       <li
         class="people-selector-list-item"
       >
-        <span
-          class="person-name selected"
-          data-index="0"
+        <label
+          class="person-name eligible"
+          for="check-john-appleseed-0"
         >
+          <input
+            checked=""
+            class="visually-hidden"
+            id="check-john-appleseed-0"
+            name="John Appleseed"
+            type="checkbox"
+          />
           John Appleseed
-        </span>
-        <span
-          aria-label="Remove person"
+        </label>
+        <button
+          aria-label="Remove John Appleseed"
           class="remove-person"
-          data-index="0"
         >
           ×
-        </span>
+        </button>
+      </li>
+      <li
+        class="people-selector-list-item"
+      >
+        <label
+          class="person-name "
+          for="check-john-q. public-1"
+        >
+          <input
+            class="visually-hidden"
+            id="check-john-q. public-1"
+            name="John Q. Public"
+            type="checkbox"
+          />
+          John Q. Public
+        </label>
+        <button
+          aria-label="Remove John Q. Public"
+          class="remove-person"
+        >
+          ×
+        </button>
       </li>
     </ul>
-    <button
-      class="clear-people-list"
+    <div
+      class="list-actions"
     >
-      Clear list
-    </button>
+      <button
+        class="clear-people-list"
+      >
+        Clear list
+      </button>
+      <button
+        class="publish-people-list"
+      >
+        Share list
+      </button>
+    </div>
   </nav>
 </div>
 `;
