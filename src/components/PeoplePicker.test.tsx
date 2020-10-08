@@ -1,12 +1,38 @@
 import React from "react";
-import { render, fireEvent, act } from "@testing-library/react";
+import {
+  render,
+  fireEvent,
+  act,
+  RenderResult
+} from "@testing-library/react";
 import PeoplePicker from "./PeoplePicker";
+import PeopleList from "./PeopleList";
 
 function noop() {
   // noop
 }
 
 describe("PeoplePicker", () => {
+  const testPerson = "John Appleseed";
+  const testDisabledPerson = "John Q. Public";
+  const testPeople = new Map([
+    [testPerson, true],
+    [testDisabledPerson, false],
+  ]);
+  const dispatch = jest.fn();
+
+  const t = {} as Record<string, RenderResult>;
+
+  beforeEach(() => {
+    t.renderedPeopleList = render(
+      <PeopleList
+        dispatch={dispatch}
+        listVisible={true}
+        people={testPeople}
+      />
+    );
+  });
+
   const defaultPeopleList = [{ name: "John Appleseed", eligible: true }];
   beforeEach(() => {
     jest.useFakeTimers();

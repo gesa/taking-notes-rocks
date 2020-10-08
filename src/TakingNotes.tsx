@@ -31,11 +31,11 @@ function mutatePerson(
       people.clear();
 
       break;
-    case "open-picker":
+    case "open-list":
       state.pickerVisible = true;
 
       break;
-    case "close-picker":
+    case "close-list":
       state.pickerVisible = false;
 
       break;
@@ -54,7 +54,7 @@ function PeopleListVisibilityControl({
     <button
       className="menu-button"
       onClick={() => {
-        dispatch({ action: "open-picker" });
+        dispatch({ action: "open-list" });
       }}
     >
       <span className="raised-hand-emoji">
@@ -73,12 +73,12 @@ function TakingNotes() {
       <PeopleList
         dispatch={dispatch}
         people={state.people}
-        pickerVisible={state.pickerVisible}
+        listVisible={state.pickerVisible}
       />
       <PeoplePicker
         dispatch={dispatch}
         people={state.people}
-        pickerVisible={state.pickerVisible}
+        listVisible={state.pickerVisible}
       />
     </>
   );

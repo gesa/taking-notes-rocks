@@ -21,7 +21,7 @@ describe("PeopleList", () => {
     t.renderedPeopleList = render(
       <PeopleList
         dispatch={dispatch}
-        pickerVisible={true}
+        listVisible={true}
         people={testPeople}
       />
     );
@@ -37,7 +37,7 @@ describe("PeopleList", () => {
     const { container } = render(
       <PeopleList
         dispatch={dispatch}
-        pickerVisible={false}
+        listVisible={false}
         people={testPeople}
       />
     );

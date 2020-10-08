@@ -5,11 +5,11 @@ import { MutateAction, People } from "./types";
 export default ({
   dispatch,
   people,
-  pickerVisible,
+  listVisible,
 }: {
   dispatch: Dispatch<MutateAction>;
   people: People;
-  pickerVisible: boolean;
+  listVisible: boolean;
 }) => {
   const suspenseInSeconds = 3;
   const [pencilClass, setPencilClass] = useState("");
@@ -24,11 +24,7 @@ export default ({
       return false;
     });
 
-    if (pickerVisible) dispatch({ action: "close-picker" });
-
-    if (eligiblePeople.length === 0) {
-      setSelectedPerson("");
-    }
+    if (listVisible) dispatch({ action: "close-list" });
 
     setPencilClass("animate");
     setTimeout(() => {
@@ -85,7 +81,7 @@ export default ({
     <main
       className="flex-center"
       onClick={() => {
-        dispatch({ action: "close-picker" });
+        dispatch({ action: "close-list" });
       }}
     >
       <Result />

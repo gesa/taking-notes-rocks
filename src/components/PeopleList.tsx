@@ -4,11 +4,11 @@ import { MutateAction, People } from "./types";
 
 function PeopleList({
   dispatch,
-  pickerVisible,
+  listVisible,
   people,
 }: {
   dispatch: Dispatch<MutateAction>;
-  pickerVisible: boolean;
+  listVisible: boolean;
   people: People;
 }) {
   const [pendingPerson, setPendingPerson] = useState("");
@@ -54,7 +54,7 @@ function PeopleList({
   }
 
   return (
-    <nav className={`settings-drawer ${pickerVisible ? "expanded" : ""}`}>
+    <nav className={`settings-drawer ${listVisible ? "expanded" : ""}`}>
       <ul className="people-selector-list">
         <li className="people-selector-input">
           <form
