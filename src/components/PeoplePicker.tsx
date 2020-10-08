@@ -1,41 +1,50 @@
-import React, { EventHandler, MouseEvent, useState } from "react";
+import React, { Dispatch, useState } from "react";
 import "./PeoplePicker.css";
-import { People } from "../types";
+import { MutateAction, People } from "./types";
 
 export default ({
+  dispatch,
   people,
-  onClick,
+  pickerVisible,
 }: {
+  dispatch: Dispatch<MutateAction>;
   people: People;
-  onClick: EventHandler<MouseEvent>;
+  pickerVisible: boolean;
 }) => {
   const suspenseInSeconds = 3;
   const [pencilClass, setPencilClass] = useState("");
   const [selectedPerson, setSelectedPerson] = useState("");
   const [resultVisibility, setResultVisibility] = useState("hidden");
+  const names = [...people.keys()];
 
   const doCountdown = () => {
-    const eligiblePeople: string[] = [];
+    const eligiblePeople = names.filter((person) => {
+      if (people.get(person)) return person;
 
-    setPencilClass("animate");
-
-    people.forEach((person) => {
-      if (person.eligible) eligiblePeople.push(person.name);
+      return false;
     });
 
+    if (pickerVisible) dispatch({ action: "close-picker" });
+
+    if (eligiblePeople.length === 0) {
+      setSelectedPerson("");
+    }
+
+    setPencilClass("animate");
     setTimeout(() => {
-      setSelectedPerson(
-        eligiblePeople[Math.floor(Math.random() * eligiblePeople.length)]
-      );
+      const chosenOne =
+        eligiblePeople[Math.floor(Math.random() * eligiblePeople.length)];
+      setSelectedPerson(chosenOne);
       setPencilClass("fade");
       setResultVisibility("");
+      dispatch({ action: "disable", person: chosenOne });
     }, suspenseInSeconds * 1000);
   };
 
   const Result = () => {
     let pickerResult;
 
-    if (people.every((person) => !person.eligible)) {
+    if (selectedPerson === "") {
       pickerResult = (
         <h2>
           Oh no!
@@ -54,6 +63,7 @@ export default ({
         </>
       );
     }
+
     return (
       <div className={`countdown-label ${resultVisibility}`}>
         {pickerResult}
@@ -72,7 +82,12 @@ export default ({
   };
 
   return (
-    <main className="flex-center" onClick={onClick}>
+    <main
+      className="flex-center"
+      onClick={() => {
+        dispatch({ action: "close-picker" });
+      }}
+    >
       <Result />
       <img
         className={`countdown-button ${pencilClass}`}

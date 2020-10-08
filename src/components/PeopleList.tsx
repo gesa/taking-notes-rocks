@@ -1,37 +1,63 @@
-import React, {
-  ChangeEvent,
-  EventHandler,
-  FormEvent,
-  MouseEvent,
-  useEffect,
-} from "react";
+import React, { ChangeEvent, Dispatch, useEffect, useState } from "react";
 import "./PeopleList.css";
-import { People, Person } from "../types";
+import { MutateAction, People } from "./types";
 
 function PeopleList({
-  className,
-  inputChange,
+  dispatch,
+  pickerVisible,
   people,
-  person,
-  mutatePerson,
 }: {
-  className: string;
-  inputChange: EventHandler<ChangeEvent>;
+  dispatch: Dispatch<MutateAction>;
+  pickerVisible: boolean;
   people: People;
-  person: Person;
-  mutatePerson: (event: string) => EventHandler<FormEvent | MouseEvent>;
 }) {
+  const [pendingPerson, setPendingPerson] = useState("");
+
   useEffect(() => {
     document
       .getElementById("add-person-input")
-      ?.setAttribute("value", person.name);
-  }, [person.name]);
+      ?.setAttribute("value", pendingPerson);
+  }, [pendingPerson]);
+
+  function renderPerson([person, eligible]: [string, boolean], index: number) {
+    return (
+      <li className="people-selector-list-item" key={index}>
+        <span
+          className={`person-name ${eligible ? "eligible" : ""}`}
+          onClick={(event) => {
+            event.preventDefault();
+
+            dispatch({ action: eligible ? "disable" : "enable", person });
+          }}
+        >
+          {person}
+        </span>
+        <span
+          onClick={() => {
+            dispatch({ action: "remove", person });
+          }}
+          aria-label="Remove person"
+          className="remove-person"
+        >
+          &times;
+        </span>
+      </li>
+    );
+  }
 
   return (
-    <nav className={`settings-drawer ${className}`}>
+    <nav className={`settings-drawer ${pickerVisible ? "expanded" : ""}`}>
       <ul className="people-selector-list">
         <li className="people-selector-input">
-          <form onSubmit={mutatePerson("add")} className="add-person-form">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+
+              dispatch({ action: "enable", person: pendingPerson });
+              setPendingPerson("");
+            }}
+            className="add-person-form"
+          >
             <label htmlFor="add-person-input" className="visually-hidden">
               Add a person
             </label>
@@ -40,34 +66,27 @@ function PeopleList({
               className="add-person-input"
               placeholder="e.g. John Appleseed"
               autoComplete="name"
-              value={person.name}
-              onChange={inputChange}
+              value={pendingPerson}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                setPendingPerson(event.target.value);
+              }}
             />
           </form>
         </li>
-        {people.map((person, index) => (
-          <li className="people-selector-list-item" key={index}>
-            <span
-              className={`person-name ${person.eligible ? "selected" : ""}`}
-              data-index={index}
-              onClick={mutatePerson("eligibility")}
-            >
-              {person.name}
-            </span>
-            <span
-              onClick={mutatePerson("remove")}
-              data-index={index}
-              aria-label="Remove person"
-              className="remove-person"
-            >
-              &times;
-            </span>
-          </li>
-        ))}
+        {[...people.entries()].map(renderPerson)}
       </ul>
-      <button className="clear-people-list" onClick={mutatePerson("clear")}>
-        Clear list
-      </button>
+      <div className="list-actions">
+        <button
+          className="clear-people-list"
+          onClick={() => {
+            dispatch({ action: "clear" });
+          }}
+        >
+          Clear list
+        </button>
+        {/* TODO: publish functionality*/}
+        <button className="publish-people-list">Share list</button>
+      </div>
     </nav>
   );
 }

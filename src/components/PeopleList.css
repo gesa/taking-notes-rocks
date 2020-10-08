@@ -14,7 +14,6 @@
   display: flex;
   list-style-type: none;
   width: 100%;
-
   user-select: none;
 }
 
@@ -25,13 +24,14 @@
 .person-name, .remove-person {
   display: block;
 }
+
 .person-name {
   flex-grow: 2;
   padding: 0.9rem 0 0.9rem 1.2rem;
   text-transform: capitalize;
 }
 
-.person-name:before {
+.person-name::before {
   background-color: #ccc;
   border-radius: 50%;
   content: "";
@@ -43,12 +43,12 @@
   width: 9px;
 }
 
-.person-name.selected {
+.person-name.eligible {
   color: #222;
   font-weight: 700;
 }
 
-.person-name.selected:before {
+.person-name.eligible::before {
   background-color: #21cf92;
 }
 
@@ -56,19 +56,25 @@
   padding: 0.9rem 1.6rem;
 }
 
-.clear-people-list {
-  background: white;
-  border: none;
+.list-actions {
   bottom: 0;
-  color: #777;
-  cursor: pointer;
-  padding: 8px 10px;
+  display: flex;
+  justify-content: space-around;
   position: absolute;
   left: 0;
   width: 100%;
 }
 
-.clear-people-list:hover {
+.list-actions button {
+  background: white;
+  border: none;
+  color: #777;
+  cursor: pointer;
+  flex-grow: 1;
+  padding: 1.5rem 0;
+}
+
+.list-actions button:hover {
   color: #222;
 }
 
