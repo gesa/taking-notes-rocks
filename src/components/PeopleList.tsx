@@ -68,6 +68,8 @@ function PeopleList({
 
               dispatch({ action: "enable", person: pendingPerson });
               setPendingPerson("");
+
+              return true;
             }}
           >
             <label htmlFor="add-person-input" className="visually-hidden">
@@ -96,6 +98,7 @@ function PeopleList({
         >
           Clear list
         </button>
+        {/* eslint-disable-next-line no-warning-comments */}
         {/* TODO: publish functionality*/}
         <button className="publish-people-list">Share list</button>
       </div>

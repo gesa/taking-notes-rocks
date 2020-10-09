@@ -30,6 +30,7 @@ export default ({
       } else {
         const chosenOne =
           eligiblePeople[Math.floor(Math.random() * eligiblePeople.length)];
+
         setSelectedPerson(chosenOne);
         dispatch({ action: "disable", person: chosenOne });
       }

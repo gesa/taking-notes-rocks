@@ -4,26 +4,7 @@ import PeopleList from "./components/PeopleList";
 import PeoplePicker from "./components/PeoplePicker";
 import { State, MutateAction } from "./components/types";
 
-const initialState = () => {
-  const localState = localStorage.getItem("state");
-  let parsedState = {
-    listVisible: false,
-    people: null,
-  };
-
-  if (localState) {
-    parsedState = JSON.parse(localState);
-  }
-
-  return {
-    people: new Map(parsedState.people),
-    listVisible: parsedState.listVisible,
-  } as State;
-};
-function reducer(
-  state: State,
-  { person = "", action }: MutateAction
-): State {
+function reducer(state: State, { person = "", action }: MutateAction): State {
   const { people } = state;
 
   switch (action) {
@@ -61,6 +42,7 @@ function reducer(
       people: [...people.entries()],
     })
   );
+
   return { ...state };
 }
 
@@ -84,11 +66,23 @@ function PeopleListVisibilityControl({
 }
 
 function TakingNotes() {
-  const [state, dispatch] = useReducer(
-    reducer,
-    initialState(),
-    initialState
-  );
+  const initialState = () => {
+    const localState = localStorage.getItem("state");
+    let parsedState = {
+      listVisible: false,
+      people: null,
+    };
+
+    if (localState) {
+      parsedState = JSON.parse(localState);
+    }
+
+    return {
+      people: new Map(parsedState.people),
+      listVisible: parsedState.listVisible,
+    } as State;
+  };
+  const [state, dispatch] = useReducer(reducer, initialState(), initialState);
 
   return (
     <>
