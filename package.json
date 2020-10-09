@@ -6,10 +6,6 @@
     "node": ">=12"
   },
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "@types/jest": "^24.9.1",
     "@types/node": "^12.12.62",
     "@types/react": "^16.9.50",
     "@types/react-dom": "^16.9.8",
@@ -19,13 +15,25 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
+    "lint": "eslint src/",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "braintree",
+      "braintree/es6",
+      "react-app",
+      "prettier",
+      "prettier/@typescript-eslint",
+      "prettier/react"
+    ],
+    "ignorePatterns": ["*.d.ts"],
+    "rules": {
+      "func-style": "off"
+    }
   },
   "browserslist": {
     "production": [
@@ -40,6 +48,13 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^24.9.1",
+    "eslint": "^7.10.0",
+    "eslint-config-braintree": "^4.0.0",
+    "eslint-config-prettier": "^6.12.0",
     "prettier": "^2.0.4"
   },
   "jest": {
