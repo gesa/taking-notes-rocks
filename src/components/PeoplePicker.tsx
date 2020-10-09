@@ -5,11 +5,9 @@ import { MutateAction, People } from "./types";
 export default ({
   dispatch,
   people,
-  listVisible,
 }: {
   dispatch: Dispatch<MutateAction>;
   people: People;
-  listVisible: boolean;
 }) => {
   const suspenseInSeconds = 3;
   const [pencilClass, setPencilClass] = useState("");
@@ -24,24 +22,30 @@ export default ({
       return false;
     });
 
-    if (listVisible) dispatch({ action: "close-list" });
-
     setPencilClass("animate");
+
     setTimeout(() => {
-      const chosenOne =
-        eligiblePeople[Math.floor(Math.random() * eligiblePeople.length)];
-      setSelectedPerson(chosenOne);
+      if (eligiblePeople.length === 0) {
+        setSelectedPerson("");
+      } else {
+        const chosenOne =
+          eligiblePeople[Math.floor(Math.random() * eligiblePeople.length)];
+        setSelectedPerson(chosenOne);
+        dispatch({ action: "disable", person: chosenOne });
+      }
+
       setPencilClass("fade");
       setResultVisibility("");
-      dispatch({ action: "disable", person: chosenOne });
     }, suspenseInSeconds * 1000);
   };
 
   const Result = () => {
-    let pickerResult;
+    let resultCopy;
 
-    if (selectedPerson === "") {
-      pickerResult = (
+    if (resultVisibility === "hidden") {
+      resultCopy = "";
+    } else if (selectedPerson === "") {
+      resultCopy = (
         <h2>
           Oh no!
           <br />
@@ -51,7 +55,7 @@ export default ({
         </h2>
       );
     } else {
-      pickerResult = (
+      resultCopy = (
         <>
           <h2>Grab a pencil</h2>
           <h1>{selectedPerson}</h1>
@@ -62,7 +66,7 @@ export default ({
 
     return (
       <div className={`countdown-label ${resultVisibility}`}>
-        {pickerResult}
+        {resultCopy}
         <button
           className="reset-button"
           onClick={() => {

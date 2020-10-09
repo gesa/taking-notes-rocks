@@ -6,7 +6,7 @@ import { State, MutateAction } from "./components/types";
 
 // TODO- re-implement local storage:
 //   JSON.parse(localStorage.getItem("people") || "[]") as People maybe
-const initialState = { people: new Map(), pickerVisible: false };
+const initialState = { people: new Map(), listVisible: false };
 function mutatePerson(
   state: State,
   { person = "", action }: MutateAction
@@ -27,16 +27,15 @@ function mutatePerson(
 
       break;
     case "clear":
-      console.log("clear");
       people.clear();
 
       break;
     case "open-list":
-      state.pickerVisible = true;
+      state.listVisible = true;
 
       break;
     case "close-list":
-      state.pickerVisible = false;
+      state.listVisible = false;
 
       break;
     default:
@@ -73,13 +72,9 @@ function TakingNotes() {
       <PeopleList
         dispatch={dispatch}
         people={state.people}
-        listVisible={state.pickerVisible}
+        listVisible={state.listVisible}
       />
-      <PeoplePicker
-        dispatch={dispatch}
-        people={state.people}
-        listVisible={state.pickerVisible}
-      />
+      <PeoplePicker dispatch={dispatch} people={state.people} />
     </>
   );
 }

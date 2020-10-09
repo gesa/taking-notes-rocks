@@ -1,16 +1,6 @@
 import React from "react";
-import {
-  render,
-  fireEvent,
-  act,
-  RenderResult
-} from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 import PeoplePicker from "./PeoplePicker";
-import PeopleList from "./PeopleList";
-
-function noop() {
-  // noop
-}
 
 describe("PeoplePicker", () => {
   const testPerson = "John Appleseed";
@@ -21,27 +11,18 @@ describe("PeoplePicker", () => {
   ]);
   const dispatch = jest.fn();
 
-  const t = {} as Record<string, RenderResult>;
-
-  beforeEach(() => {
-    t.renderedPeopleList = render(
-      <PeopleList
-        dispatch={dispatch}
-        listVisible={true}
-        people={testPeople}
-      />
-    );
-  });
-
-  const defaultPeopleList = [{ name: "John Appleseed", eligible: true }];
   beforeEach(() => {
     jest.useFakeTimers();
   });
 
   it("displays the name if there's only one eligible name", () => {
     const { getByAltText, container } = render(
-      <PeoplePicker people={defaultPeopleList} onClick={noop} />
+      <PeoplePicker
+        dispatch={dispatch}
+        people={new Map([[testPerson, true]])}
+      />
     );
+
     act(() => {
       fireEvent.click(getByAltText(/pencil/));
       jest.runAllTimers();
@@ -52,13 +33,39 @@ describe("PeoplePicker", () => {
     );
   });
 
+  it("displays an eligible name from the list", () => {
+    const multiplePeople = new Map([
+      [testPerson, true],
+      ["John Q. Public", true],
+      ["Jane Doe", true],
+      ["Red Herring", false],
+    ]);
+    const { getByAltText, container } = render(
+      <PeoplePicker dispatch={dispatch} people={multiplePeople} />
+    );
+
+    act(() => {
+      fireEvent.click(getByAltText(/pencil/));
+      jest.runAllTimers();
+    });
+
+    const selectedName =
+      container.getElementsByTagName("h1")[0].textContent || "";
+
+    expect(container.getElementsByTagName("div")[0].textContent).toMatch(
+      `Grab a pencil${selectedName}you're taking notes!`
+    );
+    expect(multiplePeople.get(selectedName)).toBeTruthy();
+  });
+
   it("displays error message if there are no eligible names", () => {
     const { getByAltText, container } = render(
       <PeoplePicker
-        people={[{ name: "John Appleseed", eligible: false }]}
-        onClick={noop}
+        dispatch={dispatch}
+        people={new Map([[testDisabledPerson, false]])}
       />
     );
+
     act(() => {
       fireEvent.click(getByAltText(/pencil/));
       jest.runAllTimers();
@@ -66,10 +73,11 @@ describe("PeoplePicker", () => {
     expect(container).toHaveTextContent("Oh no!No eligible names.Try again.");
   });
 
-  it("displays error message if there are no names", () => {
+  it("displays error message if there are no names at all", () => {
     const { getByAltText, container } = render(
-      <PeoplePicker people={[]} onClick={noop} />
+      <PeoplePicker dispatch={dispatch} people={new Map()} />
     );
+
     act(() => {
       fireEvent.click(getByAltText(/pencil/));
       jest.runAllTimers();
@@ -79,7 +87,7 @@ describe("PeoplePicker", () => {
 
   it("uses 3 seconds of suspense", () => {
     const { getByAltText, container } = render(
-      <PeoplePicker people={defaultPeopleList} onClick={noop} />
+      <PeoplePicker dispatch={dispatch} people={testPeople} />
     );
     const initialText = container.textContent;
 
@@ -95,7 +103,7 @@ describe("PeoplePicker", () => {
 
   it("matches snapshot", () => {
     const { getByAltText, container } = render(
-      <PeoplePicker people={defaultPeopleList} onClick={noop} />
+      <PeoplePicker dispatch={dispatch} people={testPeople} />
     );
 
     expect(container).toMatchSnapshot();

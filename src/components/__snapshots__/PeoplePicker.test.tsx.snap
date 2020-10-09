@@ -8,13 +8,7 @@ exports[`PeoplePicker matches snapshot 1`] = `
     <div
       class="countdown-label hidden"
     >
-      <h2>
-        Grab a pencil
-      </h2>
-      <h1 />
-      <h2>
-        you're taking notes!
-      </h2>
+      
       <button
         class="reset-button"
       >
