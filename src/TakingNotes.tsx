@@ -4,10 +4,23 @@ import PeopleList from "./components/PeopleList";
 import PeoplePicker from "./components/PeoplePicker";
 import { State, MutateAction } from "./components/types";
 
-// TODO- re-implement local storage:
-//   JSON.parse(localStorage.getItem("people") || "[]") as People maybe
-const initialState = { people: new Map(), listVisible: false };
-function mutatePerson(
+const initialState = () => {
+  const localState = localStorage.getItem("state");
+  let parsedState = {
+    listVisible: false,
+    people: null,
+  };
+
+  if (localState) {
+    parsedState = JSON.parse(localState);
+  }
+
+  return {
+    people: new Map(parsedState.people),
+    listVisible: parsedState.listVisible,
+  } as State;
+};
+function reducer(
   state: State,
   { person = "", action }: MutateAction
 ): State {
@@ -41,6 +54,13 @@ function mutatePerson(
     default:
   }
 
+  localStorage.setItem(
+    "state",
+    JSON.stringify({
+      listVisible: state.listVisible,
+      people: [...people.entries()],
+    })
+  );
   return { ...state };
 }
 
@@ -64,7 +84,11 @@ function PeopleListVisibilityControl({
 }
 
 function TakingNotes() {
-  const [state, dispatch] = useReducer(mutatePerson, initialState);
+  const [state, dispatch] = useReducer(
+    reducer,
+    initialState(),
+    initialState
+  );
 
   return (
     <>
