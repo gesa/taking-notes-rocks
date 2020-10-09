@@ -30,7 +30,9 @@
       "prettier/@typescript-eslint",
       "prettier/react"
     ],
-    "ignorePatterns": ["*.d.ts"],
+    "ignorePatterns": [
+      "*.d.ts"
+    ],
     "rules": {
       "func-style": "off"
     }
@@ -52,7 +54,6 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "@types/jest": "^24.9.1",
-    "eslint": "^7.10.0",
     "eslint-config-braintree": "^4.0.0",
     "eslint-config-prettier": "^6.12.0",
     "prettier": "^2.0.4"
