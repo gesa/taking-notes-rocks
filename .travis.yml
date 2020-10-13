@@ -1,13 +1,13 @@
 language: node_js
 node_js:
-  - 'node'
+- node
 script:
-  - npm run-script build
+- npm run-script build
 deploy:
   provider: s3
   access_key_id: AKIAJKOBELDLY52FNPGA
   secret_access_key:
-    secure: biZMww7hLXXMMfPPCWZdfVuvRRmi/bEqCBHfU7CYHmKJCpe9cmmSdllnKRXsgnktgRwxzxWxVi2cxb5DjyqXeqFfSksjp4x9WK4rLAo3dUeEduPf46/RE3/XN2jFvBmqGjpVbZfOxgnUPfkf5ZYTuiNBqsf5mWxcyOdmX6hnu9U=
+    secure: tWZ8MSOIj0eFGswPMwa88n9Qa0gClBH8vVuXcCidu2GF/5aPbA5cm5xbkCKUiEQQPgJhw4amTH7OKp8InLYGPRgqUuWAGm1jTovFZhr0EvE5B4XhI6ApEwPsIWdBHNR45o/zevM4/Ht4rervBcm/4hhRVMXcp+ROu6kr9qH9nO2WVOJzb8L0eO2tlTTw2YnQRPhsjXiDSr1MYA2RUidrnCY2IinMzJ5qQOeVw7BoIeEIZCzfsyalGgtxFKIRJJWhdo1X6XzPsZQmsHJHl2T7QfQvpWbNSuY+WoQ6vbPjw8udj9ubooPckO0z+bBa/Aqv00YiTP325Tb2h5Z9sHXlpnHS6XBued215VyY+1JUXo6u6QtQAPn01j6ohBBbWMhbsFnd8lTaSAEitFgiZ0+olt1ehUyVBSgv/zNus9O1oU5ProauBC6XYw6NmHaOOwiWS3jTUKxQ7DU1P3eDt6A66d1vEBIHV9LAkkN99cPObokfqcGNjJuGy+tp1b1biadbXQp4/uoduzdtSnZCNO4XZUq4yHTR3jbpiyWRluDDWNQCBG4zbL0gJ9+mzPDhQPxC13/zsMN3FW0NQbM58GeMvNx1PP/GynpIhuo2qyw7Dvhn1MfHYvoy+zV7rghi5RPeIyX1zbQY3w69J2NhOloUe4AKj8XJZ1CtyVPl+fdEKHs=
   bucket: notes.everyonepanic.org
   region: us-west-1
   skip_cleanup: true
