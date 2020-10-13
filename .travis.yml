@@ -9,6 +9,7 @@ deploy:
   secret_access_key:
     secure: biZMww7hLXXMMfPPCWZdfVuvRRmi/bEqCBHfU7CYHmKJCpe9cmmSdllnKRXsgnktgRwxzxWxVi2cxb5DjyqXeqFfSksjp4x9WK4rLAo3dUeEduPf46/RE3/XN2jFvBmqGjpVbZfOxgnUPfkf5ZYTuiNBqsf5mWxcyOdmX6hnu9U=
   bucket: notes.everyonepanic.org
+  region: us-west-1
   skip_cleanup: true
   acl: public_read
   local-dir: build
